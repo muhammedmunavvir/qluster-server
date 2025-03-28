@@ -1,22 +1,29 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-
-dotenv.config();
-
+import mongoose from "mongoose";
 const app = express();
-const PORT = process.env.PORT || 5001;
+dotenv.config()
+import cookieParser from "cookie-parser"
+import userRouter from "./Routers/userRouter"
 
-// Middleware
+
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser())
+
 
 // Routes
-app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "Hello, TypeScript + Express!" });
-});
+app.use("/api/user",userRouter)
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+const mongoseEnv =process.env.MONGO_URI
+if(!mongoseEnv){
+  throw new Error("Mongoose URI is missing!")
+}
+mongoose.connect(mongoseEnv)
+.then(()=>{console.log("Database connected")})
+.catch((err)=>{console.log(err)})
+
+app.listen(process.env.PORT || 5001, () => {
+  console.log(`🚀 Server is running`);
 });
