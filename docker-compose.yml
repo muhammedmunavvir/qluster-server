@@ -22,6 +22,27 @@ services:
     command: npm run dev  # Runs nodemon for hot-reloading
     restart: unless-stopped
 
+  project-service:
+    build: ./project_service
+    container_name: project-service
+    ports:
+      - "5002:5002"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+    networks:
+      - Qluster-network
+    env_file:
+      - .env
+      #new code 
+    volumes:
+      - ./project_service:/app
+      - /app/node_modules  # Prevents overwriting node_modules
+    command: npm run dev  # Runs nodemon for hot-reloading
+    restart: unless-stopped    
+
   
 
   rabbitmq:
