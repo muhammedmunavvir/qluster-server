@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response } from "express"
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -25,5 +25,5 @@ mongoose.connect(mongoseEnv)
 .catch((err)=>{console.log(err)})
 
 app.listen(process.env.PORT || 5001, () => {
-  console.log(`🚀 Server is running`);
+  console.log(`🚀 Server is running on port 5001`);
 });
