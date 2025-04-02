@@ -47,6 +47,10 @@ export const getProjectById = async (req:Request, res:Response) =>{
     
     if(!project){
        res.status(404).json({msg:"project not found.."})
+
+
+
+       
     }
     res.status(200).json(project)
 
