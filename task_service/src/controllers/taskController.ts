@@ -4,7 +4,7 @@ import Task from "../models/Task.model";
 export const createTask = async (req:Request,res:Response) =>{
 
 try
-{  const {title,description,projectId,assignedTo,status,comments} = req.body;
+{  const {title,description,projectId,assignedTo,status,comments,priority} = req.body;
 
   if(!title ||  !description || !projectId || !assignedTo || !status || !comments){
     res.status(500).json("credentials are missing")
@@ -16,7 +16,8 @@ try
     projectId,
     assignedTo,
     status,
-    comments
+    comments,
+    priority
 
   })
 
