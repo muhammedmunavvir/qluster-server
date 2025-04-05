@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    name:{type:String,require:true,min:3,unique:true},
+    name:{type:String,require:true,min:3},
     email:{type:String,require:true,lowercase:true},
     password:{type:String,require:true,minLength:6},
     profilePicture: { type: String, default: "" },
@@ -24,6 +24,8 @@ const userSchema = new mongoose.Schema({
           endorsedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         },
       ],
+    isVerified: { type: Boolean, default: false }, // New field
+
 
 },{timestamps:true})
 
