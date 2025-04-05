@@ -8,7 +8,10 @@ import cookieParser from "cookie-parser"
 import userRouter from "./Routers/userRouter"
 
 
-app.use(cors());
+app.use(cors({
+  origin:"http://localhost:3000",
+  credentials:true,
+}));
 app.use(express.json());
 app.use(cookieParser())
 
