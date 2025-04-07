@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     name:{type:String,require:true,min:3},
     email:{type:String,require:true,lowercase:true},
-    password:{type:String,require:true,minLength:6},
+    password:{type:String,require:false},
     profilePicture: { type: String, default: "" },
     converImage:{ type: String, default: "" },
     bio: { type: String, maxlength: 300 },
