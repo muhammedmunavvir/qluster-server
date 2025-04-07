@@ -5,6 +5,9 @@ import { doHash, doHashValidation } from "../Utils/hashing"
 import { generateAccesstoken } from "../Utils/token"
 import nodemailer from "nodemailer"
 import jwt from "jsonwebtoken";
+import { OAuth2Client, TokenPayload } from "google-auth-library";
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 
 export const signup = async(req:Request,res:Response)=>{
     const {name,email,password} =req.body
@@ -173,3 +176,40 @@ export const editProfie = async (req:CustomRequest,res:Response)=>{
     updateProfile.password = undefined
     res.status(200).json({success:true,message:"Successfully updated your profile",data:updateProfile})
 }
+
+
+
+//google auth
+export const googleLogin = async (req:Request, res:Response) => {
+    console.log("=====================================================================");
+    
+    const { token } = req.body;
+    if (!token) {
+        return res.status(400).json({ message: "Token is missing!" });
+      }
+    console.log(token,"tokkkeen");
+    
+
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const { email, name, picture } = payload as TokenPayload;
+    console.log(payload ,"payload ");
+    
+
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = await User.create({
+        email,
+        name,
+        profilePicture: picture,
+        isVerified: true,
+        password: "", // optional: or handle password-less login logic
+      });
+    }
+    // generate your auth token here (e.g., JWT)
+    const authToken = "your_generated_token";
+    return res.json({ user, token: authToken });
+};
