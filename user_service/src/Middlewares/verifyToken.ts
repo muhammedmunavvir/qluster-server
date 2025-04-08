@@ -4,12 +4,14 @@ const jwt = require("jsonwebtoken")
 interface CustomRequest extends Request {
     user?: { userId: string }; 
   }
-const verifyToken = (req:CustomRequest,res:Response,next:NextFunction )=>{
+const verifyToken = (req:CustomRequest,res:Response,next:NextFunction ):void=>{
     const {accessToken} = req.cookies
     if(!accessToken){
-        return res.status(401).json({success:false,message:"Token required"})
-    }
+      res.status(401).json({success:false,message:"Token required"})
+      return; // ✅ ensure no further execution
 
+         
+    }
     jwt.verify(accessToken , process.env.JWT_SECRET,(error:any,decoded:any)=>{
         if(error){
             return res.status(403).json({success:false,message:"Invalid token or expired"})
