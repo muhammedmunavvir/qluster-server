@@ -148,13 +148,13 @@ interface CustomRequest extends Request {
     user?: { userId: string }; 
   }
 //cr login
-exports.logedUser= async (req:CustomRequest,res:Response)=>{
+export const logedUser= async (req:CustomRequest,res:Response):Promise<Response>=>{
     const userId = req.user?.userId
     const user = await User.findById(userId).select("-password")
     if(!user){
-        res.status(404).json({success:false ,message:"User not found"})
+        return res.status(404).json({success:false ,message:"User not found"})
     }
-    res.status(200).json({success:true,message:"User data fetched successfully",data:user})
+     return res.status(200).json({success:true,message:"User data fetched successfully",data:user})
 }
   
 
@@ -180,15 +180,12 @@ export const editProfie = async (req:CustomRequest,res:Response)=>{
 
 
 //google auth
-export const googleLogin = async (req:Request, res:Response) => {
-    console.log("=====================================================================");
-    
+export const googleLogin = async (req:Request, res:Response) => {    
     const { token } = req.body;
     if (!token) {
         return res.status(400).json({ message: "Token is missing!" });
       }
     console.log(token,"tokkkeen");
-    
 
     const ticket = await client.verifyIdToken({
       idToken: token,
@@ -198,7 +195,6 @@ export const googleLogin = async (req:Request, res:Response) => {
     const { email, name, picture } = payload as TokenPayload;
     console.log(payload ,"payload ");
     
-
     let user = await User.findOne({ email });
     if (!user) {
       user = await User.create({
@@ -206,10 +202,20 @@ export const googleLogin = async (req:Request, res:Response) => {
         name,
         profilePicture: picture,
         isVerified: true,
-        password: "", // optional: or handle password-less login logic
+        password: "", 
       });
     }
+    const accessToken = generateAccesstoken({
+        userId: user._id.toString(),  
+        email:user.email ?? "",
+        role: user.role ?? "user",  
+    })
+            res.cookie("accessToken", accessToken, {
+                httpOnly: true,  
+                secure:false,
+                maxAge: 24 * 60 * 60 * 1000 
+            });
     // generate your auth token here (e.g., JWT)
-    const authToken = "your_generated_token";
-    return res.json({ user, token: authToken });
+    
+    return res.json({ user,  });
 };
