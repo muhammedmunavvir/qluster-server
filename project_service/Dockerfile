@@ -1,13 +1,23 @@
-FROM node:18-alpine
+# Use official Node.js image
+FROM node:23-alpine
 
+# Set working directory inside the container
 WORKDIR /app
 
+# Copy package.json and package-lock.json first
 COPY package*.json ./
 
-RUN npm install --legacy-peer-deps
+# Install dependencies
+RUN npm install 
 
+# Copy the rest of the application code
 COPY . .
 
-EXPOSE 5002
+# Build TypeScript
+RUN npm run build
 
-CMD ["npm", "run", "dev"]
+# Expose the port the service runs on
+EXPOSE 5003
+
+# Start the service using compiled JavaScript
+CMD ["node", "dist/"]

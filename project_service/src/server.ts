@@ -7,7 +7,7 @@ import projectRouter from "./routes/projectRoutes"
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.PORT || 5003;
 
 // Middleware
 app.use(cors());
@@ -25,3 +25,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
+ 

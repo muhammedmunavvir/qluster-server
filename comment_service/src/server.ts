@@ -8,7 +8,7 @@ import commentRoutes from './routes/commentRoutes'
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5003;
+const PORT = process.env.PORT || 5004;  
 
 // Middleware
 app.use(cors());

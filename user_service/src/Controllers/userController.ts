@@ -11,6 +11,7 @@ export const signup = async(req:Request,res:Response)=>{
     const {error, value} =  signupValidation.validate({name,email,password})
     if(error){
         res.status(401).json({success:false,message:error.details[0].message})
+      
     }
     const existingUser= await User.findOne({email})
     if(existingUser){
