@@ -156,37 +156,14 @@ export const logedUser= async (req:CustomRequest,res:Response):Promise<Response>
     }
      return res.status(200).json({success:true,message:"User data fetched successfully",data:user})
 }
-  
-
-
-export const editProfie = async (req:CustomRequest,res:Response)=>{
-    const userId = req.user?.userId
-    let {name,bio,skills ,portfolio,github,linkedin,profilePicture,converImage} = req.body;
-        // const image =req.file?.path
-        // console.log(image);
-        
-    const updateProfile = await User.findByIdAndUpdate(
-        userId,
-        {$set :{name,bio,skills,portfolio,github,linkedin,profilePicture,converImage}},
-        {new:true}
-    )
-    if(!updateProfile){
-       return res.status(404).json({success:false,message : "User Not found"})
-    }
-    updateProfile.password = undefined
-    res.status(200).json({success:true,message:"Successfully updated your profile",data:updateProfile})
-}
-
-
 
 //google auth
 export const googleLogin = async (req:Request, res:Response) => {    
     const { token } = req.body;
     if (!token) {
-        return res.status(400).json({ message: "Token is missing!" });
+        return res.status(400).json({ message: " Google Token is missing! " });
       }
-    console.log(token,"tokkkeen");
-
+    // console.log(token,"tokkkeen");
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
@@ -214,8 +191,38 @@ export const googleLogin = async (req:Request, res:Response) => {
                 httpOnly: true,  
                 secure:false,
                 maxAge: 24 * 60 * 60 * 1000 
-            });
-    // generate your auth token here (e.g., JWT)
-    
+            });    
     return res.json({ user,  });
 };
+
+interface MulterFile {
+    [fieldname: string]: Express.Multer.File[];
+  }
+export const editProfie = async (req:CustomRequest,res:Response)=>{
+    const userId = req.user?.userId
+    let {name,bio,skills ,portfolio,github,linkedin,profession,location} = req.body;
+        const files = req.files as MulterFile
+        const profilePicture = files["profilePicture"]?.[0]?.path;
+        const coverImage = files["coverImage"]?.[0]?.path;  
+
+    const updateProfile = await User.findByIdAndUpdate(
+        userId,
+        {$set :{name,bio,skills,portfolio,github,linkedin,profilePicture:profilePicture,coverImage:coverImage,profession,location}},
+        {new:true}
+    )
+    if(!updateProfile){
+       return res.status(404).json({success:false,message : "User Not found"})
+    }
+    updateProfile.password = undefined
+    res.status(200).json({success:true,message:"Successfully updated your profile",data:updateProfile})
+}
+
+export const OthersProfile= async (req:Request,res:Response):Promise<Response>=>{
+    const{ userId} = req.params
+    
+    const user = await User.findById(userId).select("-password")
+    if(!user){
+        return res.status(404).json({success:false ,message:"User not found"})
+    }
+     return res.status(200).json({success:true,message:"User data fetched successfully",data:user})
+}
