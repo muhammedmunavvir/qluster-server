@@ -7,8 +7,8 @@ const storage = new CloudinaryStorage({
     params:()=>({
         folder:"Qluster",
         allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-        transformation: [{ quality: "auto", fetch_format: "auto" }]
+        transformation: [{ quality: "auto:eco",fetch_format: "auto", width: 1024,crop: "limit"}]
     })
 })
 const upload = multer( {storage:storage})
-module.exports = upload
+export default upload
