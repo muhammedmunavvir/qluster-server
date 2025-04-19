@@ -6,6 +6,7 @@ const app = express();
 dotenv.config()
 import cookieParser from "cookie-parser"
 import userRouter from "./Routers/userRouter"
+import endorsementRouter from "./Routers/endorsementRouter"
 
 
 app.use(cors({
@@ -18,6 +19,8 @@ app.use(cookieParser())
 
 // Routes
 app.use("/api/user",userRouter)
+app.use("/api/endorse",endorsementRouter)
+
 
 const mongoseEnv =process.env.MONGO_URI
 if(!mongoseEnv){
