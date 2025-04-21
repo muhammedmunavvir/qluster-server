@@ -28,7 +28,7 @@ export const signup = async(req:Request,res:Response)=>{
     })
     await newUser.save()
     newUser.password = undefined
-    res.status(200).json({success:true,message:"Your account hasbeen created successfully",data:newUser})
+    return res.status(200).json({success:true,message:"Your account hasbeen created successfully",data:newUser})
 }
 
 // // Nodemailer transporter setup

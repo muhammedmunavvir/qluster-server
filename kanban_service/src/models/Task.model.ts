@@ -6,10 +6,12 @@ const taskSchema = new mongoose.Schema({
   "title":{type:String, required:true},
   "description":{type:String,required:true},
   "projectId":{type:Number,required:true},
+  "ColumnId":{type: mongoose.Schema.Types.ObjectId, ref: "Columns", required: true},
   "assignedTo":{type:String,required:true},
   "priority": {type:String,enum:["Low","Medium","High"]},
-  "status":{type:String,enum:['To do','In Progress','Completed']},
   "comments": [{type: String,required: false,}],
+  "order":{type:Number,default:0},
+
 },{timestamps:true})
 
 

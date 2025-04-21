@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import taskRoute from './routes/taskRoute'
 import { connectDB } from "./config/db";
+import boardRoute from './routes/boardRoute'
+import columnRoute from './routes/column.Route'
 
 
 dotenv.config();
@@ -19,6 +21,8 @@ connectDB();
 
 // Routes
 app.use("/api/task", taskRoute);
+app.use('/api/board',boardRoute);
+app.use('/api/column',columnRoute);
 
 
 
