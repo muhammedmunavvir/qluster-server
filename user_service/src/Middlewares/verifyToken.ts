@@ -8,7 +8,7 @@ const verifyToken = (req:CustomRequest,res:Response,next:NextFunction ):void=>{
     const {accessToken} = req.cookies
     if(!accessToken){
       res.status(401).json({success:false,message:"Token required"})
-      return; // ✅ ensure no further execution
+      return; 
 
          
     }
