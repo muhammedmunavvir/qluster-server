@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
        .replace(/\*(.*?)\*/g, "$1")     // remove *italic*
        .replace(/^- /gm, "")            // remove bullet dashes at start of line
        .replace(/^\s*[\*\-]\s?/gm, "")  // remove leading bullets like *, -
-      //  .replace(/\n{2,}/g, "\n\n");     // reduce multiple newlines
+       .replace(/\n{2,}/g, "\n\n")   // reduce multiple newlines
       .replace(/\*\*.*?\*\*/g, ""); // Removes bolded markdown headings
 
       socket.emit("reply", text);
