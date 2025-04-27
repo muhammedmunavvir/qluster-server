@@ -6,8 +6,8 @@ export const createTask = async (req:Request,res:Response) =>{
 try
 {  const {title,description,projectId,assignedTo,status,comments,ColumnId,priority} = req.body;
 
-  if(!title ||  !description || !projectId || !assignedTo || !status || !comments || ColumnId){
-    res.status(500).json("credentials are missing")
+  if(!title ||  !description || !projectId || !assignedTo || !status || !comments || !ColumnId){
+  return   res.status(500).json("credentials are missing")
   }
 
   const newTask = new Task({

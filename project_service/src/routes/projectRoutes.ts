@@ -4,7 +4,7 @@ import { createProject,getAllProjects, getProjectById, updateProject } from "../
 
 const projectRouter = express.Router(); // ✅ Correct way to initialize router
 
-projectRouter.post("/createProject" , createProject); 
+projectRouter.post("/createProject" ,createProject); 
 projectRouter.get("/getAllProjects",getAllProjects);
 projectRouter.get("/getProject/:id",getProjectById);
 projectRouter.put("/getProject/:id",updateProject);
