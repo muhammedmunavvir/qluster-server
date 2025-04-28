@@ -1,35 +1,32 @@
 import { Request, Response, RequestHandler } from "express";
 import Project from "../models/projectModel";
 
-export const createProject: RequestHandler = async (req: Request, res: Response) => {
+export const createProject  = async (req: Request, res: Response)=> {
   console.log(req.url)
   console.log(req.body) 
-  try { 
-    const { title, description, techStack, category, owner, contributors, RequiredRoles,  } = req.body;
+  
+    const { title, description, techStack, category, requiredRoles,problem ,solution } = req.body;
+    
 
-    if (!title || !description || !techStack || !category || !owner || !contributors ) {
-       res.status(404).json({ msg: "required credentials are missing..." });
-       return;
-    }
-
-    const newProject = new Project({
-      title,
+    if (!title || !description || !techStack || !category || !problem || !solution||!requiredRoles ) {
+      return res.status(404).json({ msg: "required credentials are missing..." });
+       
+    } 
+    console.log("munavvur")
+    const newProject = new Project({ 
+      title, 
       description,
       techStack,
       category,
-      owner,
-      contributors,
-      RequiredRoles,
+      solution, 
+      problem,
+      requiredRoles,
      
     });
 
     await newProject.save();
-     res.status(201).json({ msg: "project created successfully", project: newProject });
-  } catch (error) {
-    console.log("what the ....")
-    console.log("error occurred:", error);
-     res.status(500).json({ msg: "server error" });
-  }
+   return  res.status(201).json({ msg: "project created successfully", project: newProject });
+
 };
 
 export const getAllProjects = async (req:Request,res:Response) =>{

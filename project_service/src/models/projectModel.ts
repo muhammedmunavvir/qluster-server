@@ -25,10 +25,10 @@ const projectSchema = new mongoose.Schema(
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true },
     techStack: [{ type: String, required: true }],
-    category: { type: String, required: true },
-    owner:{ type: String, required: true },
-    contributors: { type: [String], required: true },
-    RequiredRoles:{type:[String],required:true}
+    problem: { type: String, required: true },
+    solution:{ type: String, required: true },
+    category: { type: [String], required: true },
+    requiredRoles:{type:[String],required:true}
    
   },
   { timestamps: true }
