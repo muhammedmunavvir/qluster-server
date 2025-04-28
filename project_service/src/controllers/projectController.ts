@@ -2,10 +2,12 @@ import { Request, Response, RequestHandler } from "express";
 import Project from "../models/projectModel";
 
 export const createProject: RequestHandler = async (req: Request, res: Response) => {
-  try {
-    const { title, description, techStack, category, owner, contributors, tasks, roles } = req.body;
+  console.log(req.url)
+  console.log(req.body) 
+  try { 
+    const { title, description, techStack, category, owner, contributors, RequiredRoles,  } = req.body;
 
-    if (!title || !description || !techStack || !category || !owner || !contributors || !tasks || !roles) {
+    if (!title || !description || !techStack || !category || !owner || !contributors ) {
        res.status(404).json({ msg: "required credentials are missing..." });
        return;
     }
@@ -17,8 +19,8 @@ export const createProject: RequestHandler = async (req: Request, res: Response)
       category,
       owner,
       contributors,
-      tasks,
-      roles,
+      RequiredRoles,
+     
     });
 
     await newProject.save();
