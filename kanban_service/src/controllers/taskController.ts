@@ -7,7 +7,7 @@ try
 {  const {title,description,projectId,assignedTo,status,comments,ColumnId,priority} = req.body;
 
   if(!title ||  !description || !projectId || !assignedTo || !status || !comments || !ColumnId){
-  return   res.status(500).json("credentials are missing")
+   return   res.status(500).json("credentials are missing")
   }
 
   const newTask = new Task({
@@ -23,11 +23,11 @@ try
   })
 
   await newTask.save();
-  res.status(201).json(newTask)
+   return res.status(201).json(newTask)
 }
 catch(error){
   console.log("error occured..",error);
-  res.status(400).json("error occured...");
+  return res.status(400).json("error occured...");
 }
 }
 
