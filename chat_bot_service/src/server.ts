@@ -33,6 +33,7 @@ io.on("connection", (socket) => {
 
   socket.on("message", async (message) => {
     try {
+      message += ", in brief"
       const chat = model.startChat({ history: [] });
       const result = await chat.sendMessage(message);
       let text = result.response.text();
