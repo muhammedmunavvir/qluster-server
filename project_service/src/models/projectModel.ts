@@ -26,10 +26,10 @@ const projectSchema = new mongoose.Schema(
     description: { type: String, required: true },
     techStack: [{ type: String, required: true }],
     category: { type: String, required: true },
-    owner: { type: String, required: true },
+    owner:{ type: String, required: true },
     contributors: { type: [String], required: true },
-    roles: { type: [String], required: true }, // Make required if needed
-    tasks: { type: [String], required: true }  // Make required to match controller
+    RequiredRoles:{type:[String],required:true}
+   
   },
   { timestamps: true }
 );
