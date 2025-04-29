@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    name:{type:String,require:true,min:3},
-    email:{type:String,require:true,lowercase:true},
-    password:{type:String,require:false},
+    name:{type:String,required:true,min:3},
+    email:{type:String,required:true,lowercase:true},
+    password:{type:String,required:false},
     profilePicture: { type: String, default: "" },
     coverImage:{ type: String, default: "" },
     bio: { type: String, maxlength: 300 },
