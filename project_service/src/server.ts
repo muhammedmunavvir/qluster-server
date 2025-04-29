@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db";
 import projectRouter from "./routes/projectRoutes"
+import "./Consumers/projectConsumer"
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ app.use(express.json());
 app.use("/api/project",projectRouter );
 
 
-connectDB();
+connectDB()
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ msg: "server error", error: err.message });
 });
