@@ -28,10 +28,10 @@ const projectSchema = new mongoose.Schema(
     problem: { type: String, required: true },
     solution:{ type: String, required: true },
     category: { type: [String], required: true },
-    requiredRoles:{type:[String],required:true}
-   
+    requiredRoles:{type:[String],required:true},
+    createdby:{type:mongoose.Schema.Types.ObjectId,required:true,ref:"User"}
   },
-  { timestamps: true }
+  { timestamps: true } 
 );
 
 const Project = mongoose.model("Project", projectSchema);

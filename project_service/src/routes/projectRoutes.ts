@@ -5,7 +5,7 @@ import {asyncErrorhandler} from "../Middlewares/asyncErrorHandler"
 const projectRouter = express.Router(); // ✅ Correct way to initialize router
 
 projectRouter.post("/createProject" ,asyncErrorhandler(createProject)); 
-projectRouter.get("/getAllProjects",getAllProjects);
+projectRouter.get("/getAllProjects",asyncErrorhandler(getAllProjects));
 projectRouter.get("/getProject/:id",getProjectById);
 projectRouter.put("/getProject/:id",updateProject);
 
