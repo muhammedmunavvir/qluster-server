@@ -7,7 +7,7 @@ dotenv.config()
 import cookieParser from "cookie-parser"
 import userRouter from "./Routers/userRouter"
 import endorsementRouter from "./Routers/endorsementRouter"
-
+import "../src/Consumers/userDataConsumer"
 
 app.use(cors({
   origin:"http://localhost:3000",

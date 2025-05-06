@@ -6,6 +6,7 @@ import { generateAccesstoken } from "../Utils/token"
 import nodemailer from "nodemailer"
 import jwt from "jsonwebtoken";
 import { OAuth2Client, TokenPayload } from "google-auth-library";
+import mongoose from "mongoose"
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 
@@ -219,7 +220,9 @@ export const editProfie = async (req:CustomRequest,res:Response)=>{
 
 export const OthersProfile= async (req:Request,res:Response):Promise<Response>=>{
     const{ userId} = req.params
-    
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ success: false, message: "Invalid user ID format" });
+      }
     const user = await User.findById(userId).select("-password")
     if(!user){
         return res.status(404).json({success:false ,message:"User not found"})
