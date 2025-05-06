@@ -10,7 +10,7 @@ async function connectToRabbitMQ(): Promise<void> {
   try {
     if (!connection) {
       console.log(" Connecting to RabbitMQ...");
-      let connection = await amqplib.connect(RABBITMQ_URL);
+       connection = await amqplib.connect(RABBITMQ_URL);
       channel = await connection.createChannel();
       console.log(" Connected to RabbitMQ!");
     }

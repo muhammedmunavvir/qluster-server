@@ -19,9 +19,7 @@ interface CustomRequest extends Request {
        await publishToQueue("specificProject",projectId)
 
        await new Promise((res)=>{setTimeout(res,1500)})
-      //  const specificProject = (await getSpecificProjectData(projectId)) as 
        const specificProject = await getSpecificProjectData(projectId)
-      // const project = await Project.findById(projectId);
       if (!specificProject) {
         return res.status(404).json({ message: 'Project not found' });
       }  
@@ -37,7 +35,7 @@ interface CustomRequest extends Request {
       });
 
       await channel.save()
-      return res.status(201).json({ message: 'Channel created successfully', data:channel });
+      return res.status(200).json({ message: 'Channel created successfully', data:channel });
 }
 
 
@@ -84,4 +82,27 @@ export const removeParticipant = async (req: Request, res: Response) => {
     res.status(200).json({ message: "Participant removed successfully", channel });
   
 };
+
+//get channel
+export const getChannel = async(req:CustomRequest,res:Response)=>{
+  const {projectId}=req.params  
+  const userId = req.user?.userId
+
+  if ( !projectId) {
+    return res.status(400).json({ message: 'Channel projectId are required' });
+  }      
+   await publishToQueue("specificProject",projectId)
+
+  await new Promise((res)=>{setTimeout(res,1500)})
+  const specificProject = await getSpecificProjectData(projectId)
+ if (!specificProject) {
+   return res.status(404).json({ message: 'Project not found' });
+ }  
+  const allChannel= await Channel.find({ projectId: projectId, participants: userId,"participants.0": { $exists: true }  // ensures the array is not empty
+  }).sort({ createdAt: 1 });
+  if(!allChannel){
+    return res.status(404).json({ message: 'Channel not found' });
+  } 
+  res.status(200).json({success:true,data:allChannel})
+}
 

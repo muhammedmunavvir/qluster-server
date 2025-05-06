@@ -10,7 +10,7 @@ async function startConsumer() {
       console.log("====");
       
         if (data) {
-          projectCache.set(data._id, data);
+          projectCache.set(data._id, data);          
             console.log("project consumer received project_fetched event:", projectCache);
         }
     });

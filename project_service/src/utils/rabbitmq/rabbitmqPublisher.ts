@@ -10,7 +10,7 @@ async function connectToRabbitMQ(): Promise<void> {
   try {
     if (!connection) {
       console.log(" Connecting to RabbitMQ...");
-      let connection = await amqplib.connect(RABBITMQ_URL);
+      connection = await amqplib.connect(RABBITMQ_URL);
       channel = await connection.createChannel();
       console.log(" Connected to RabbitMQ! project service");
     }
@@ -27,7 +27,7 @@ export async function publishToQueue(queue: string, message: any): Promise<void>
     
     await channel.assertQueue(queue);
     channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)));
-    console.log(` adminService need some details ${queue}`);
+    console.log(`  need some details ${queue}`);
     // setTimeout(() => connection.close(), 500);
   } catch (error) {
     console.error("RabbitMQ Publish Error:", error);
