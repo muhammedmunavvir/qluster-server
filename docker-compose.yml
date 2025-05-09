@@ -43,11 +43,11 @@ services:
     command: npm run dev  # Runs nodemon for hot-reloading
     restart: unless-stopped
   
-  comment-service:
-    build: ./comment_service
-    container_name: comment-service
+  video-service:
+    build: ./video_service
+    container_name: video-service
     ports:
-      - "5004:5004"
+      - "5006:5006"
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -59,11 +59,14 @@ services:
       - .env
       #new code 
     volumes:
-      - ./comment_service:/app
+      - ./video_service:/app
       - /app/node_modules  # Prevents overwriting node_modules
     command: npm run dev  # Runs nodemon for hot-reloading
-    restart: unless-stopped 
+    restart: unless-stopped
+  
 
+  
+  
   kanban-service:
     build: ./kanban_service
     container_name: kanban-service

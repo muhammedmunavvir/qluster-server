@@ -7,6 +7,7 @@ dotenv.config()
 import cookieParser from "cookie-parser"
 import userRouter from "./Routers/userRouter"
 import endorsementRouter from "./Routers/endorsementRouter"
+import accountRoute from './Routers/account.route'
 
 
 app.use(cors({
@@ -19,6 +20,7 @@ app.use(cookieParser())
 
 // Routes
 app.use("/api/user",userRouter)
+app.use("/api/account",accountRoute)
 app.use("/api/endorse",endorsementRouter)
 
 
