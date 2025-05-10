@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import Channel from "../Models/channelModels";
 import { publishToQueue } from "../Utils/rabbitmq/rabbitmqPublisher";
 import { getSpecificProjectData } from "../Consumers/projectDataConsumer";
+import NotePad from "../Models/notePad";
 
 interface CustomRequest extends Request {
   user?: { userId: string }; 
@@ -33,8 +34,10 @@ interface CustomRequest extends Request {
         createdBy: userId,
         participants: [userId],
       });
-
       await channel.save()
+
+      await NotePad.create({channelId:channel._id,content:""})
+
       return res.status(200).json({ message: 'Channel created successfully', data:channel });
 }
 
