@@ -13,6 +13,7 @@ const server = http.createServer(app);
 import { Server as SocketIOServer } from "socket.io";
 import { channelSocket } from "./Sockets/channelSocket"
 import peerChatSocket from "./Sockets/peerChatSocket"
+import notePadRouter from "./Routers/notePadRouter"
 
 
 const io = new SocketIOServer(server, {
@@ -27,6 +28,7 @@ app.use(cookieParser())
 app.use(cors({origin:"http://localhost:3000", credentials:true, }))
 
 app.use("/api/channel",channelRouter)
+app.use("/api/notepad",notePadRouter)
 
 channelSocket(io)
 peerChatSocket(io)
