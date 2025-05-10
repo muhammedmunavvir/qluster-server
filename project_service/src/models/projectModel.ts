@@ -1,23 +1,3 @@
-// import mongoose from "mongoose";
-
-// const projectSchema = new mongoose.Schema(
-//   {
-//     title: { type: String, required: true, trim: true },
-//     description: { type: String, required: true },
-//     techStack: [{ type: String, required: true }], // Technologies used in the project
-//     category: { type: String, required: true }, // Web, Mobile, AI, etc.
-//     owner: { type: String, required: true }, // Project Owner
-//     contributors: { type:[String] , required: true }, // Contributors
-//     roles: { type: [String]}, // Roles (Frontend, Backend, etc.)
-//     tasks: { type: [String] }, // Linking tasks
-//   },
-//   { timestamps: true } // Automatically manages `createdAt` and `updatedAt`
-// );
-
-// const Project = mongoose.model("Project", projectSchema);
-// export default Project;
-
-
 import mongoose from "mongoose";
 
 const projectSchema = new mongoose.Schema(
@@ -29,7 +9,47 @@ const projectSchema = new mongoose.Schema(
     solution:{ type: String, required: true },
     category: { type: [String], required: true },
     requiredRoles:{type:[String],required:true},
-    createdby:{type:mongoose.Schema.Types.ObjectId,required:true,ref:"User"}
+    createdby: { type: mongoose.Schema.Types.ObjectId, required: true },
+    likes: { type: Number, default: 0 },
+    comments: { type: Number, default: 0 },
+    featured: { type: Boolean, default: false },
+    progress: { type: Number, default: 0 },
+    status: {
+      type: String,
+      enum: ["Planning", "In Progress", "Completed", "On Hold"],
+      default: "Planning",
+    },
+    author: {
+      name: { type: String, default: "" },
+      avatar: { type: String, default: "" },
+      title: { type: String, default: "" },
+      company: { type: String, default: "" },
+      github: { type: String, default: "" },
+      website: { type: String, default: "" },
+    },
+    team: [
+      {
+        name: { type: String, default: "" },
+        avatar: { type: String, default: "" },
+        role: { type: String, default: "" },
+      },
+    ],
+    updates: [
+      {
+        date: { type: Date, default: Date.now },
+        content: { type: String, default: "" },
+      },
+    ],
+    resources: [
+      { 
+        type: {
+          type: String,
+          enum: ["document", "repository", "link"],
+        },
+        name: { type: String, default: "" },
+        url: { type: String, default: "" },
+      },
+    ],
   },
   { timestamps: true } 
 );
