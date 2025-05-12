@@ -1,6 +1,6 @@
 import express from "express"
 import { asyncErrorhandler } from "../Middlewares/asyncErrorHandler"
-import { editProfie, googleLogin, logedUser, login, logOut, OthersProfile, signup, getDevelopers } from "../Controllers/userController"
+import {  editProfie, getDevelopers, googleLogin, logedUser, login, logOut, OthersProfile, signup,  } from "../Controllers/userController"
 import verifyToken from "../Middlewares/verifyToken"
 import upload from "../Middlewares/uploadMiddleware"
 const router = express.Router()

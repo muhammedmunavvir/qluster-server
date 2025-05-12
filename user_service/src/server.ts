@@ -9,6 +9,7 @@ import userRouter from "./Routers/userRouter"
 import endorsementRouter from "./Routers/endorsementRouter"
 import accountRoute from './Routers/account.route'
 
+import "./Consumers/userDataConsumer"
 
 app.use(cors({
   origin:"http://localhost:3000",

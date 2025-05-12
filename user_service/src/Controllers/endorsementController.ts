@@ -30,9 +30,9 @@ export const endorseSkill = async (req: CustomRequest, res: Response) => {
     const alreadyEndorsed = user.endorsements.some(
       (item) => item.skill === skill && item.endorsedBy?.toString() === endorserId?.toString()
     )
-    // if (alreadyEndorsed) {
-    //   return res.status(400).json({ message: "You've already endorsed this skill" })
-    // }
+    if (alreadyEndorsed) {
+      return res.status(400).json({ message: "You've already endorsed this skill" })
+    }
     user.endorsements.push({
       skill,
       endorsedBy: endorserId,
@@ -105,7 +105,6 @@ export const getUserEndorsements = async (req: Request, res: Response) => {
         endorsers: endorsements.map((e) => e.endorsedBy),
       }
     })
-
     return res.status(200).json(skillEndorsements)
 
 }

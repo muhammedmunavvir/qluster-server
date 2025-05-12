@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   user-service:
     build: ./user_service
@@ -15,11 +13,10 @@ services:
       - Qluster-network
     env_file:
       - .env
-      #new code 
     volumes:
       - ./user_service:/app
-      - /app/node_modules  # Prevents overwriting node_modules
-    command: npm run dev  # Runs nodemon for hot-reloading
+      - /app/node_modules # Prevents overwriting node_modules
+    command: npm run dev # Runs nodemon for hot-reloading
     restart: unless-stopped
 
   project-service:
@@ -36,11 +33,10 @@ services:
       - Qluster-network
     env_file:
       - .env
-      #new code 
     volumes:
       - ./project_service:/app
-      - /app/node_modules  # Prevents overwriting node_modules
-    command: npm run dev  # Runs nodemon for hot-reloading
+      - /app/node_modules # Prevents overwriting node_modules
+    command: npm run dev # Runs nodemon for hot-reloading
     restart: unless-stopped
   
   video-service:
@@ -81,14 +77,51 @@ services:
       - Qluster-network
     env_file:
       - .env
-      #new code 
     volumes:
       - ./kanban_service:/app
+      - /app/node_modules # Prevents overwriting node_modules
+    command: npm run dev # Runs nodemon for hot-reloading
+    restart: unless-stopped
+
+  chat-bot-service: 
+    build: ./chat_bot_service  
+    container_name: chat-bot-service 
+    ports:
+      - "5005:5005"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+    networks:
+      - Qluster-network
+    env_file:
+      - .env
+    volumes:
+      - ./chat_bot_service:/app  # <-- Ensure the folder name matches
       - /app/node_modules  # Prevents overwriting node_modules
     command: npm run dev  # Runs nodemon for hot-reloading
-    restart: unless-stopped 
-
+    restart: unless-stopped
   
+  channel-service:
+    build: ./channel_service
+    container_name: channel-service
+    ports:
+      - "5004:5004"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+    networks:
+      - Qluster-network
+    env_file:
+      - .env
+    volumes:
+      - ./channel_service:/app
+      - /app/node_modules # Prevents overwriting node_modules
+    command: npm run dev # Runs nodemon for hot-reloading
+    restart: unless-stopped
 
   rabbitmq:
     image: "rabbitmq:3-management"

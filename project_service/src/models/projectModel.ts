@@ -25,13 +25,13 @@ const projectSchema = new mongoose.Schema(
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true },
     techStack: [{ type: String, required: true }],
-    category: { type: String, required: true },
-    owner: { type: String, required: true },
-    contributors: { type: [String], required: true },
-    roles: { type: [String], required: true }, // Make required if needed
-    tasks: { type: [String], required: true }  // Make required to match controller
+    problem: { type: String, required: true },
+    solution:{ type: String, required: true },
+    category: { type: [String], required: true },
+    requiredRoles:{type:[String],required:true},
+    createdby:{type:mongoose.Schema.Types.ObjectId,required:true,ref:"User"}
   },
-  { timestamps: true }
+  { timestamps: true } 
 );
 
 const Project = mongoose.model("Project", projectSchema);
