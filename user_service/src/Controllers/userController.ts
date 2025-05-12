@@ -229,3 +229,27 @@ export const OthersProfile= async (req:Request,res:Response):Promise<Response>=>
     }
      return res.status(200).json({success:true,message:"User data fetched successfully",data:user})
 }
+
+
+
+export const getDevelopers = async (req: Request, res: Response) => {
+    try {
+      const developers = await User.find({ role: "user" }).select("-password");
+  
+       res.status(200).json({
+        success: true,
+        message: "Developers fetched successfully",
+        data: developers,
+      });
+    } catch (error) {
+      console.error("Error occurred while fetching developers:", error);
+       res.status(500).json({
+        success: false,
+        message: "Server error",
+      });
+    }
+  };
+
+
+  
+  
