@@ -2,11 +2,11 @@ import { Request,Response } from "express";
 import Task from "../models/Task.model";
 
 export const createTask = async (req:Request,res:Response) =>{
-
+   console.log(req.body)
 try
-{  const {title,description,projectId,assignedTo,status,comments,ColumnId,priority} = req.body;
+{  const {title,description,projectId,assignedTo,comments,columnId,priority} = req.body;
 
-  if(!title ||  !description || !projectId || !assignedTo || !status || !comments || !ColumnId){
+  if(!title ||  !description || !projectId || !assignedTo || !comments || !columnId){
    return   res.status(500).json("credentials are missing")
   }
 
@@ -15,8 +15,7 @@ try
     description,
     projectId,
     assignedTo,
-    ColumnId,
-    status,
+    columnId,
     comments,
     priority
 
@@ -86,3 +85,27 @@ export const deleteTask = async(req:Request,res:Response) =>{
   }
 
 }
+
+export const updateTaskColumn = async (req:Request, res:Response) => {
+  console.log(req.body)
+  const taskId = req.params.id;
+  const { columnId } = req.body;
+
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(
+      taskId,
+      { columnId },
+      { new: true }
+    );
+
+    if (!updatedTask) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    console.error("Error updating task column:", error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
